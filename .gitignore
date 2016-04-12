@@ -1,0 +1,11 @@
+# Ignore everything
+*
+
+# Except for these:
+!.gitignore
+!Makefile
+!refcompress
+!refuncompress
+!*.hpp
+!*.cpp
+!*.pdf
