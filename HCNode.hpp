@@ -30,7 +30,7 @@ public:
      *  We want small counts to have high priority.
      *  And we want to break ties deterministically.
      */
-    bool operator<(const HCNode& other);
+    bool operator<(const HCNode& other) const;
 };
 
 /** For printing an HCNode to an ostream
