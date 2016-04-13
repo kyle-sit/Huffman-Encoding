@@ -2,6 +2,7 @@
 #include <queue>
 #include <vector>
 #include <fstream>
+#include "HCNode.hpp"
 #include "BitInputStream.hpp"
 #include "BitOutputStream.hpp"
 
