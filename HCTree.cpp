@@ -21,7 +21,9 @@ void HCTree::build(const vector<int>& freqs) {
   // Insert these values into a minHeap priority queue
   std::priority_queue<HCNode*,vector<HCNode*>, HCNodePtrComp> minHeap;
   for( i = 0; i < leaves.size(); i++ ) {
-    minHeap.push( leaves[i] );
+    if( leaves[i]->count != 0 ) {
+       minHeap.push( leaves[i] );
+    }
   }
 
   // Now that minHeap is set up, start popping values and creating trees
@@ -31,6 +33,7 @@ void HCTree::build(const vector<int>& freqs) {
     
     // If we have come to the last item in the heap return
     if( !minHeap.top() ) {
+      root = temp1;
       return;
     }
     
@@ -61,13 +64,113 @@ void HCTree::build(const vector<int>& freqs) {
 }
 
 void HCTree::encode(byte symbol, BitOutputStream& out) const {
+  // Create a temp node pointer for use
+  HCNode* temp;
+  
+  // Loop through leaves and find appropriate symbol leaf
+  for( int i = 0; i < leaves.size(); i++ ) {
+    if( (leaves[i])->symbol == symbol ) {
+      temp = leaves[i];
+    }
+  }
+  
+  // Loop for encoding output to stream
+  std::string backward;
+  HCNode* temp2 = temp->p;
+  while( temp2 != NULL ) {
+    if( temp == temp2->c0 ) {
+      backward += '0';
+    }
+    else {
+      backward += '1';
+    }
+    temp = temp2;
+    temp2 = temp2->p;
+  }
+ 
+  std::string::iterator it = backward.end();
+  std::string forward;
+  it--;
+  while( it != backward.begin() ) {
+    forward += *it;
+    it--;
+  }
+  forward += *it;
+
+  //out << forward;
 }
 
 void HCTree::encode(byte symbol, ofstream& out) const {
+  // Create a temp node pointer for use
+  HCNode* temp;
+  
+  // Loop through leaves and find appropriate symbol leaf
+  for( int i = 0; i < leaves.size(); i++ ) {
+    if( (leaves[i])->symbol == symbol ) {
+      temp = leaves[i];
+    }
+  }
+  
+  // Loop for encoding output to stream
+  std::string backward;
+  HCNode* temp2 = temp->p;
+  while( temp2 != NULL ) {
+    if( temp == temp2->c0 ) {
+      backward += '0';
+    }
+    else {
+      backward += '1';
+    }
+    temp = temp2;
+    temp2 = temp2->p;
+  }
+ 
+  std::string::iterator it = backward.end();
+  std::string forward;
+  it--;
+  while( it != backward.begin() ) {
+    forward += *it;
+    it--;
+  }
+  forward += *it;
+
+  out << forward;
 }
 
 int HCTree::decode(BitInputStream& in) const {
+  unsigned char temp = in.get();
+  HCNode* tempNode = root;
+
+  while( tempNode != NULL ) {
+    if( tempNode->c0 == NULL && tempNode->c1 == NULL ) {
+      return tempNode->symbol;
+    }
+    else if( temp == '0' ) {
+      tempNode = tempNode->c0;
+      temp = in.get();
+    }
+    else {
+      tempNode = tempNode->c1;
+      temp = in.get();
+    }
+  }
 }
 
 int HCTree::decode(ifstream& in) const{
+  unsigned char temp = in.get();
+  HCNode* tempNode = root;
+
+  while( tempNode != NULL ) {
+    if( tempNode->c0 == NULL && tempNode->c1 == NULL ) {
+      return tempNode->symbol;
+    }
+    else if( temp == '0' ) {
+      tempNode = tempNode->c0;
+      temp = in.get();
+    }
+    else {
+      tempNode = tempNode->c1;
+      temp = in.get();
+    }
+  }
 }
