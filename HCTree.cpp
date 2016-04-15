@@ -15,13 +15,15 @@ void HCTree::build(const vector<int>& freqs) {
   // Build our leaves vector from the vector of int frequencies
   int i = 0;
   for( i = 0; i < freqs.size(); i++ ) {
-    leaves[i] = new HCNode(freqs[i], (unsigned char)(i+1), 0, 0, 0);
+    if( freqs[i] != 0 ) {
+      leaves[i] = new HCNode(freqs[i], (unsigned char)(i), 0, 0, 0);
+    }
   }
 
   // Insert these values into a minHeap priority queue
   std::priority_queue<HCNode*,vector<HCNode*>, HCNodePtrComp> minHeap;
   for( i = 0; i < leaves.size(); i++ ) {
-    if( leaves[i]->count != 0 ) {
+    if( leaves[i] != nullptr ) {
        minHeap.push( leaves[i] );
     }
   }
@@ -64,52 +66,18 @@ void HCTree::build(const vector<int>& freqs) {
 }
 
 void HCTree::encode(byte symbol, BitOutputStream& out) const {
-  // Create a temp node pointer for use
-  HCNode* temp;
-  
-  // Loop through leaves and find appropriate symbol leaf
-  for( int i = 0; i < leaves.size(); i++ ) {
-    if( (leaves[i])->symbol == symbol ) {
-      temp = leaves[i];
-    }
-  }
-  
-  // Loop for encoding output to stream
-  std::string backward;
-  HCNode* temp2 = temp->p;
-  while( temp2 != NULL ) {
-    if( temp == temp2->c0 ) {
-      backward += '0';
-    }
-    else {
-      backward += '1';
-    }
-    temp = temp2;
-    temp2 = temp2->p;
-  }
- 
-  std::string::iterator it = backward.end();
-  std::string forward;
-  it--;
-  while( it != backward.begin() ) {
-    forward += *it;
-    it--;
-  }
-  forward += *it;
-
-  //out << forward;
 }
 
 void HCTree::encode(byte symbol, ofstream& out) const {
   // Create a temp node pointer for use
-  HCNode* temp;
+  HCNode* temp = leaves[ (int)symbol ];
   
-  // Loop through leaves and find appropriate symbol leaf
+  /* Loop through leaves and find appropriate symbol leaf
   for( int i = 0; i < leaves.size(); i++ ) {
     if( (leaves[i])->symbol == symbol ) {
       temp = leaves[i];
     }
-  }
+  }*/
   
   // Loop for encoding output to stream
   std::string backward;
@@ -138,25 +106,12 @@ void HCTree::encode(byte symbol, ofstream& out) const {
 }
 
 int HCTree::decode(BitInputStream& in) const {
-  unsigned char temp = in.get();
-  HCNode* tempNode = root;
-
-  while( tempNode != NULL ) {
-    if( tempNode->c0 == NULL && tempNode->c1 == NULL ) {
-      return tempNode->symbol;
-    }
-    else if( temp == '0' ) {
-      tempNode = tempNode->c0;
-      temp = in.get();
-    }
-    else {
-      tempNode = tempNode->c1;
-      temp = in.get();
-    }
-  }
 }
 
 int HCTree::decode(ifstream& in) const{
+//implement so can decode entire stream, not just one char 
+//why does this return an int
+//print out everything, return presumably true or false 
   unsigned char temp = in.get();
   HCNode* tempNode = root;
 
