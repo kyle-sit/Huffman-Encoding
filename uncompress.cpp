@@ -99,14 +99,19 @@ int uncompress(int argc, char* argv[])
 	//pointer is currently at the last newline right before huffcode, we
 	//need to eat up the newline before processing actual huff code
 
-	int testChar = in.get();	
+	(void) in.get();	
 	
 	//now our poitner is at beginning of huffcode, we can begin decoding,
 	//and cast the returned int value to a char and write to our final
 	//outfile, which is written like "AAABBC" for example
 
+  char testChar;
 	while (!in.eof()) {
-		out << (char)huffTree.decode(in);
+		testChar = (char)huffTree.decode(in);
+    if( in.eof() ) {
+      break;
+    }
+    out << testChar;
 	}
 	
 
