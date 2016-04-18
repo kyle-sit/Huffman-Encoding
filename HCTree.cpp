@@ -9,6 +9,25 @@
 using namespace std;
 
 HCTree::~HCTree() {
+  deleteAll( root );
+}
+
+void HCTree::deleteAll(HCNode* n) {
+  /** If current node is null: return */
+  if( n == nullptr ) {
+    return;
+  }
+
+  /** Recursively delete left subtree */
+  deleteAll( n->c0 );
+
+  /** Recursively delete right subtree */
+  deleteAll( n->c1 );
+
+  /** Delete current node */
+  delete n;
+  n = NULL;
+  return;
 }
 
 void HCTree::build(const vector<int>& freqs) {

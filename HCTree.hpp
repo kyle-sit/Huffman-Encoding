@@ -36,7 +36,13 @@ public:
         leaves = vector<HCNode*>(256, (HCNode*) 0);
     }
 
+    /** Tree;s desctructor delegating to deleteAll */
     ~HCTree();
+
+    /** Recursive method use to delete all the nodes in the tree
+     * through a post order traversal.
+     */
+    void deleteAll(HCNode* n);
 
     /** Use the Huffman algorithm to build a Huffman coding trie.
      *  PRECONDITION: freqs is a vector of ints, such that freqs[i] is 
