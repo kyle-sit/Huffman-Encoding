@@ -8,12 +8,12 @@ LDFLAGS=-g
 all: compress uncompress
 
 compress: compress.cpp HCNode.o HCTree.o
-	$(CC) -o compress $(CXXFLAGS) compress.cpp HCNode.o HCTree.o
+	$(CC) -o compress $(CXXFLAGS) compress.cpp 
 
 uncompress: uncompress.cpp HCNode.o HCTree.o
 	$(CC) -o uncompress $(CXXFLAGS) uncompress.cpp HCNode.o HCTree.o
 
-HCTree.o: BitInputStream.hpp BitOutputStream.hpp HCNode.hpp HCTree.hpp
+HCTree.o: HCNode.hpp HCTree.hpp
 
 HCNode.o: HCNode.hpp
 

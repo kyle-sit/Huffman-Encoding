@@ -33,7 +33,7 @@ void HCTree::build(const vector<int>& freqs) {
     HCNode* temp1 = minHeap.top();
     minHeap.pop();
     
-    // If we have come to the last item in the heap return
+    // If we just popped off the last item, meaning we have our final tree
     if( minHeap.size() == 0) {
       root = temp1;
       return;
@@ -115,8 +115,12 @@ int HCTree::decode(ifstream& in) const{
     if( tempNode->c0 == NULL && tempNode->c1 == NULL ) {
       return tempNode->symbol;
     }
+
     else if( temp == '0' ) {
       tempNode = tempNode->c0;
+      //if we have found the code, RETURN, and do not get another int because
+      //another call to decode will handle that for us. Otherwise, we need to
+      //get another int because we'll still be in this while loop
       if (tempNode -> c0 == NULL && tempNode ->c1 == NULL) {
       	return tempNode->symbol;
       }
@@ -126,6 +130,9 @@ int HCTree::decode(ifstream& in) const{
     }
     else {
       tempNode = tempNode->c1;
+      //if we have found the code, RETURN, and do not get another int because
+      //another call to decode will handle that for us. Otherwise, we need to
+      //get another int because we'll still be in this while loop
       if (tempNode -> c0 == NULL && tempNode ->c1 == NULL) {
       	return tempNode->symbol;
       }

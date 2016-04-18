@@ -78,29 +78,35 @@ int uncompress(int argc, char* argv[])
 	
 	int nextChar;
 	vector<int> freqs(vectorSize,0);
+	//loop through header, if a frequency is greater than 0, populate a
+	//frequency vector spot with the appropriate frequency, which is the
+	//char we just processed 
+
 	for (int i = 0; i < vectorSize; i++) {
-		//std::getline(in, nextChar);
-		//this knows to get one int, stop at the newline
+		//this >> knows to get one int, stop at the newline
 		//the next time it grabs, it'll be pointing at the newline but
 		//knows to skip it
 		in >> nextChar;
 		if (nextChar != 0) {
 			freqs[i] = nextChar;
-			cerr << "Populated with" << i << "\n";
-			cerr << "NextChar was " << nextChar;
 		}
 	}
 	
-	
+	//build our huffman tree	
 	HCTree huffTree;
 	huffTree.build(freqs);
 	
-	//might have to increment pointer once before, because we haven't
-	//skipped the last newline before the huffman encoding
+	//pointer is currently at the last newline right before huffcode, we
+	//need to eat up the newline before processing actual huff code
+
 	int testChar = in.get();	
+	
+	//now our poitner is at beginning of huffcode, we can begin decoding,
+	//and cast the returned int value to a char and write to our final
+	//outfile, which is written like "AAABBC" for example
+
 	while (!in.eof()) {
 		out << (char)huffTree.decode(in);
-		cerr << "Looping once\n";
 	}
 	
 
