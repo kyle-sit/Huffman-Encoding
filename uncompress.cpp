@@ -13,7 +13,13 @@
 #include<string>
 
 using namespace std;
+int uncompress(int argc, char*argv[]);
 
+
+int main(int argc, char* argv[]) {
+	(void) uncompress (argc, argv);
+	return 1;
+}
 /* 
  * Function name: uncompress
  * Purpose: Runs the user interface and command line prompts for use 
@@ -28,33 +34,33 @@ int uncompress(int argc, char* argv[])
 	//Check for Arguments
 	if(argc != 3){
 		cout << "Invalid number of arguments.\n" 
-		     << "Usage: ./uncompress <input filename> <output filename>.\n";
+			<< "Usage: ./uncompress <input filename> <output filename>.\n";
 		return -1;
 	}
 
 	//Open files 
 	ifstream in;
 	in.open(argv[1], ios::binary);
-  ofstream out;
-  out.open(argv[2], ios::binary);
+	ofstream out;
+	out.open(argv[2], ios::binary);
 
 	//Check if input file was actually opened
 	if(!in.is_open()) 
 	{
 		if(out.is_open()) {
-      out.close();
-    }
-    cout<< "Invalid input file. No file was opened. Please try again.\n";
+			out.close();
+		}
+		cout<< "Invalid input file. No file was opened. Please try again.\n";
 		return -1;
 	}
 
-  //Check if output file was actually opened
-  if(!out.is_open())
-  {
-    in.close();
-    cout<< "Invalid output file. No file was opened. Please try again.\n";
-    return -1;
-  }
+	//Check if output file was actually opened
+	if(!out.is_open())
+	{
+		in.close();
+		cout<< "Invalid output file. No file was opened. Please try again.\n";
+		return -1;
+	}
 
 	//Check for empty file
 	in.seekg(0, ios_base::end); 
@@ -68,3 +74,8 @@ int uncompress(int argc, char* argv[])
 	//Resets the stream to beginning of file
 	in.seekg(0, ios_base::beg); 
 
+	in.close();
+	out.close();
+
+	return 1;
+}

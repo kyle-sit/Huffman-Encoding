@@ -14,7 +14,7 @@ HCTree::~HCTree() {
 void HCTree::build(const vector<int>& freqs) {
   // Build our leaves vector from the vector of int frequencies
   int i = 0;
-  for( i = 0; i < freqs.size(); i++ ) {
+  for( i = 0; i < (signed int) freqs.capacity(); i++ ) {
     if( freqs[i] != 0 ) {
       leaves[i] = new HCNode(freqs[i], (unsigned char)(i), 0, 0, 0);
     }
@@ -22,19 +22,19 @@ void HCTree::build(const vector<int>& freqs) {
 
   // Insert these values into a minHeap priority queue
   std::priority_queue<HCNode*,vector<HCNode*>, HCNodePtrComp> minHeap;
-  for( i = 0; i < leaves.size(); i++ ) {
+  for( i = 0; i < (signed int) leaves.capacity(); i++ ) {
     if( leaves[i] != nullptr ) {
        minHeap.push( leaves[i] );
     }
   }
 
   // Now that minHeap is set up, start popping values and creating trees
-  while( !(minHeap.empty()) ) {
+  while( minHeap.size() > 1 ) {
     HCNode* temp1 = minHeap.top();
     minHeap.pop();
     
     // If we have come to the last item in the heap return
-    if( !minHeap.top() ) {
+    if( minHeap.top() == NULL ) {
       root = temp1;
       return;
     }
@@ -65,8 +65,6 @@ void HCTree::build(const vector<int>& freqs) {
   }
 }
 
-void HCTree::encode(byte symbol, BitOutputStream& out) const {
-}
 
 void HCTree::encode(byte symbol, ofstream& out) const {
   // Create a temp node pointer for use
@@ -105,8 +103,6 @@ void HCTree::encode(byte symbol, ofstream& out) const {
   out << forward;
 }
 
-int HCTree::decode(BitInputStream& in) const {
-}
 
 int HCTree::decode(ifstream& in) const{
 //implement so can decode entire stream, not just one char 
@@ -128,4 +124,5 @@ int HCTree::decode(ifstream& in) const{
       temp = in.get();
     }
   }
+  return 1;  
 }

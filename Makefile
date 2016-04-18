@@ -1,14 +1,17 @@
 # A simple makefile for CSE 100 PA2
 
 CC=g++
-CXXFLAGS=-std=c++11 -g
+#CXXFLAGS=-std=c++11 -g
+CXXFLAGS = -gdwarf-3 -Wall -std=c++11
 LDFLAGS=-g
 
 all: compress uncompress
 
-compress: BitInputStream.o BitOutputStream.o HCNode.o HCTree.o
+compress: compress.cpp HCNode.o HCTree.o
+	$(CC) -o compress $(CXXFLAGS) compress.cpp HCNode.o HCTree.o
 
-uncompress: BitInputStream.o BitOutputStream.o HCNode.o HCTree.o
+uncompress: uncompress.cpp HCNode.o HCTree.o
+	$(CC) -o uncompress $(CXXFLAGS) uncompress.cpp HCNode.o HCTree.o
 
 HCTree.o: BitInputStream.hpp BitOutputStream.hpp HCNode.hpp HCTree.hpp
 
