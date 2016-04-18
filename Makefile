@@ -8,7 +8,7 @@ LDFLAGS=-g
 all: compress uncompress
 
 compress: compress.cpp HCNode.o HCTree.o
-	$(CC) -o compress $(CXXFLAGS) compress.cpp 
+	$(CC) -o compress $(CXXFLAGS) compress.cpp HCNode.o HCTree.o 
 
 uncompress: uncompress.cpp HCNode.o HCTree.o
 	$(CC) -o uncompress $(CXXFLAGS) uncompress.cpp HCNode.o HCTree.o
