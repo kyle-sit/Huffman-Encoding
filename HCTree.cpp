@@ -29,12 +29,12 @@ void HCTree::build(const vector<int>& freqs) {
   }
 
   // Now that minHeap is set up, start popping values and creating trees
-  while( minHeap.size() > 1 ) {
+  while( minHeap.size() > 0 ) {
     HCNode* temp1 = minHeap.top();
     minHeap.pop();
     
     // If we have come to the last item in the heap return
-    if( minHeap.top() == NULL ) {
+    if( minHeap.size() == 0) {
       root = temp1;
       return;
     }
@@ -105,9 +105,9 @@ void HCTree::encode(byte symbol, ofstream& out) const {
 
 
 int HCTree::decode(ifstream& in) const{
-//implement so can decode entire stream, not just one char 
 //why does this return an int
-//print out everything, return presumably true or false 
+//print out everything, return presumably true or false
+//
   unsigned char temp = in.get();
   HCNode* tempNode = root;
 
@@ -117,11 +117,21 @@ int HCTree::decode(ifstream& in) const{
     }
     else if( temp == '0' ) {
       tempNode = tempNode->c0;
-      temp = in.get();
+      if (tempNode -> c0 == NULL && tempNode ->c1 == NULL) {
+      	return tempNode->symbol;
+      }
+      else {
+      	temp = in.get();
+      }
     }
     else {
       tempNode = tempNode->c1;
-      temp = in.get();
+      if (tempNode -> c0 == NULL && tempNode ->c1 == NULL) {
+      	return tempNode->symbol;
+      }
+      else {
+      	temp = in.get();
+      }
     }
   }
   return 1;  

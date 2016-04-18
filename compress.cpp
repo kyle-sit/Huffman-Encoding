@@ -84,13 +84,8 @@ int compress(int argc, char* argv[])
 	//appropriate slots according to ASCII value of whatever chars you read
 	//from infile 
 	vector<int> freqs(256,0);
-	while (!in.eof()) {
-		nextChar = in.get();
-		if (nextChar == EOF) {
-			break;
-		}
-		cout << nextChar << "\n";
-		freqs[nextChar] = freqs[nextChar] + 1;
+	while ((nextChar = in.get()) != EOF) {
+		freqs[(char)nextChar] = freqs[(char)nextChar] + 1;
 	}
 	
 	for (vector<int>::iterator i = freqs.begin(); i != freqs.end(); i++) {
@@ -104,13 +99,12 @@ int compress(int argc, char* argv[])
 
 	in.clear();
 	in.seekg(0, ios::beg);
-	while (!in.eof()) {
-		nextChar = in.get();
-		if (nextChar == EOF) {
-			break;
-		}
-		huffTree.encode(nextChar, out);
+
+	while ((nextChar = in.get()) != EOF) {
+		huffTree.encode((char)nextChar, out);
 	}
+
+
 
 	
 	in.close();
