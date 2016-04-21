@@ -65,6 +65,10 @@ void HCTree::build(const vector<int>& freqs) {
   }
 }
 
+void HCTree::encode(byte symbol, BitOutputStream& out) const;
+
+
+void HCTree::decode(BitInputStream& in) const;
 
 void HCTree::encode(byte symbol, ofstream& out) const {
   // Create a temp node pointer for use
