@@ -15,7 +15,7 @@ class BitOutputStream {
 
   public:
     /* Constructor for intializing BitOutputStream */
-    BitOutputStream(std::ostream & os) : out(os), buf(0), nbits(0) {}
+    BitOutputStream(std::ostream & os) : buf(0), nbits(1), out(os) {} 
     
     /* Print buffer to outstream and clear buffer */
     void flush();

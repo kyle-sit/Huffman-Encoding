@@ -2,7 +2,7 @@
 #include <iostream>
 
 /* Fill buffer from input */
-void fill() {
+void BitInputStream::fill() {
   buf = in.get();
   nbits = 0;
 }
@@ -13,12 +13,12 @@ void fill() {
  * return 0 if the bit read is 0.
  *
  */
-int readBit() {
+int BitInputStream::readBit() {
   //If all bits in the buffer are read, fill the buffer first.
   if (nbits == 8) {
-    this.fill()
+    this->fill();
   }
-
+  return 0;
 
   //Get the bit at the appropriate location in the bit
   //buffer, and return the appropriate int.

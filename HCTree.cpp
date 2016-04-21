@@ -84,10 +84,40 @@ void HCTree::build(const vector<int>& freqs) {
   }
 }
 
-void HCTree::encode(byte symbol, BitOutputStream& out) const;
+void HCTree::encode(byte symbol, BitOutputStream& out) const {
+
+  HCNode* temp = leaves[ (int)symbol ];
+  //std::string backward;
+  HCNode* temp2 = temp->p;
+  while( temp2 != NULL ) {
+    if( temp == temp2->c0 ) {
+      //backward += '0';
+      cerr << "Writing 0" << "\n";
+      out.writeBit( 0 );
+    }
+    else {
+      //backward += '1';
+      cerr << "Writing 1" << "\n";
+      out.writeBit( 1 );
+    }
+    temp = temp2;
+    temp2 = temp2->p;
+  }
+
+  /*std::string::iterator it = backward.end();
+  while( it != backward.begin()) {
+    if( *it == '0' ) {
+      out.writeBit( 0 ); 
+    }
+    else {
+    	out.writeBit( 1 );
+    }
+    it--;
+  }*/
+}
 
 
-void HCTree::decode(BitInputStream& in) const;
+//int HCTree::decode(BitInputStream& in) const;
 
 void HCTree::encode(byte symbol, ofstream& out) const {
   // Create a temp node pointer for use

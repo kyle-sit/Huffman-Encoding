@@ -11,6 +11,7 @@
 #include <vector>
 #include<fstream>
 #include<string>
+#include "BitOutputStream.hpp"
 
 using namespace std;
 
@@ -77,7 +78,8 @@ int compress(int argc, char* argv[])
 	//Resets the stream to beginning of file
 	in.seekg(0, ios_base::beg); 
 	
-	
+	BitOutputStream bitOut = BitOutputStream(out);
+
 	int nextChar;
 
 	//create vector of size 256 zero initialized, then fill in the
@@ -101,16 +103,14 @@ int compress(int argc, char* argv[])
 	in.seekg(0, ios::beg);
 
 	while ((nextChar = in.get()) != EOF) {
-		huffTree.encode((char)nextChar, out);
+		huffTree.encode((char)nextChar, bitOut);
+		cerr << "Encoding a char \n" << (char)nextChar << "\n";
 	}
-
-
-
 	
+	bitOut.flush();
+
 	in.close();
 	out.close();
-
-
 
 	return 1;
 }

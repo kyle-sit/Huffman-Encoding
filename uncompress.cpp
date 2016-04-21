@@ -105,14 +105,16 @@ int uncompress(int argc, char* argv[])
 	//and cast the returned int value to a char and write to our final
 	//outfile, which is written like "AAABBC" for example
 
-<<<<<<< HEAD
 	char testChar;
 	while (!in.eof()) {
 		testChar = (char)huffTree.decode(in);
 		if (in.eof()) {
 			break;
 		}
-		out << testChar;
+	out << testChar;
+	}
+
+/*
 =======
   char testChar;
 	while (!in.eof()) {
@@ -123,7 +125,7 @@ int uncompress(int argc, char* argv[])
     out << testChar;
 >>>>>>> 9fe43e3f0fe4a203ad15f2a6763e4479b9eea59a
 	}
-	
+*/
 
 	in.close();
 	out.close();

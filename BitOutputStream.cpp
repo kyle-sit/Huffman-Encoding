@@ -5,7 +5,8 @@
 void BitOutputStream::flush() {
   out.put(buf);
   out.flush();
-  buf = nbits = 0;
+  buf = 0;
+  nbits = 1;
 }
 
 /** Write the least significant bit of the argument to
@@ -14,14 +15,15 @@ void BitOutputStream::flush() {
  */
 
 void BitOutputStream::writeBit(int i) {
+  charSize = 8;
   // Is bit buffer full? Then flush it.
-  if (nbits == sizeof(buf)) {
-    this.flush();
+  if (nbits == charSize) {
+    this->flush();
   }
 
   // Write least significant bit of i into buffer
-  // at current index.
-  i = i >> nbits;
+  // at current index
+  i = (i << (charSize - nbits));
 
   buf = buf | i;
 
