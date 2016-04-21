@@ -10,7 +10,7 @@ bool HCNode::operator<(const HCNode& other) const {
     return count > other.count;
   }
 
-  return symbol < other.symbol;
+  return symbol > other.symbol;
 }
 
 bool comp(HCNode* one, HCNode* other) {
