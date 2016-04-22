@@ -87,14 +87,46 @@ int compress(int argc, char* argv[])
 	//appropriate slots according to ASCII value of whatever chars you read
 	//from infile 
 	vector<int> freqs(256,0);
+  char charToStore;
+  int tempInt;
+  int uniqueValCount = 0;
 	while ((nextChar = in.get()) != EOF) {
 		freqs[(char)nextChar] = freqs[(char)nextChar] + 1;
 	}
 	
 	for (vector<int>::iterator i = freqs.begin(); i != freqs.end(); i++) {
-		out << *i;
-		out << "\n";
-	}
+    /* if the frequency was 0, put in a null char */
+    if (*i == 0) {
+      out << "000";
+      //cerr << "no frequency here, Stored a 420\n";
+    }
+    /* frequency wasn't 0, put in 3 chars representing that frequency, instead
+     * so it's 3 bytes not 4, since max freq is around ~10 mil, able to be
+     * stored in 3 bytes */
+    else {
+      tempInt = *i;
+      for (int j = 0; j < 3; j++) {
+        switch (j) {
+          case 0:
+            charToStore = tempInt & 0xFF0000;
+            break;
+          case 1:
+            charToStore = tempInt & 0xFF00;
+            break;
+          case 2:
+            charToStore = tempInt & 0xFF;
+            break;
+        }
+       out << charToStore;
+       //cerr << "Stored a byte of significant data \n" << charToStore << "\n";
+      }
+      //uniqueValCount++;
+      //cerr << "Stored a significant byte(s)";
+		//out << *i;
+		//out << "\n";
+    }
+  }
+  //out << uniqueValCount;
 	
 	//create a tree, built based on 
 	HCTree huffTree;
@@ -103,9 +135,8 @@ int compress(int argc, char* argv[])
 	in.clear();
 	in.seekg(0, ios::beg);
 
-	while ((nextChar = in.get()) != EOF) {
+  while ((nextChar = in.get()) != EOF) {
 		huffTree.encode((char)nextChar, bitOut);
-		cerr << "Encoding a char \n" << (char)nextChar << "\n";
 	}
 	
 	bitOut.flush();

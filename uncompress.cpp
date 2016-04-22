@@ -75,10 +75,11 @@ int uncompress(int argc, char* argv[])
 	//Resets the stream to beginning of file
 	in.seekg(0, ios_base::beg);
 
-  // Create inputstream
-  BitInputStream bitIn = BitInputStream(in);
+
 	
-	int nextChar;
+	char nextChar1, nextChar2, nextChar3;;
+  int finalInt;
+  int uniqueVals;
 	vector<int> freqs(vectorSize,0);
 	//loop through header, if a frequency is greater than 0, populate a
 	//frequency vector spot with the appropriate frequency, which is the
@@ -88,10 +89,33 @@ int uncompress(int argc, char* argv[])
 		//this >> knows to get one int, stop at the newline
 		//the next time it grabs, it'll be pointing at the newline but
 		//knows to skip it
-		in >> nextChar;
-		if (nextChar != 0) {
-			freqs[i] = nextChar;
+		in >> nextChar1;
+    in >> nextChar2;
+    in >> nextChar3;
+		if ((nextChar1 != '0') && (nextChar2 != '0') && (nextChar3 != '0')) {
+      finalInt = 0;
+      nextChar1 = nextChar1 << 16;
+      nextChar2 = nextChar2 << 8;
+      finalInt = finalInt | nextChar1 | nextChar2 | nextChar3;
+      freqs[i] = finalInt;
+      uniqueVals = uniqueVals + finalInt;
+      cerr << "Processed a significant 3 bytes from header \n";
+      /*
+      finalInt = finalInt | nextChar;
+      nextChar = 0;
+      in >> nextChar;
+      nextChar = nextChar << 8;
+      finalInt = finalInt | nextChar;
+      nextChar = 0;
+      in >> nextChar;
+      finalInt = finalInt | nextChar;
+			freqs[i] = finalInt;
+      */
 		}
+    /*
+    else {
+    }
+    */
 	}
 	
 	//build our huffman tree	
@@ -101,19 +125,24 @@ int uncompress(int argc, char* argv[])
 	//pointer is currently at the last newline right before huffcode, we
 	//need to eat up the newline before processing actual huff code
 
-	(void) in.get();	
+	//(void) in.get();
+  
+  // Create inputstream
+  BitInputStream bitIn = BitInputStream(in);
 	
 	//now our poitner is at beginning of huffcode, we can begin decoding,
 	//and cast the returned int value to a char and write to our final
 	//outfile, which is written like "AAABBC" for example
-
+  //int uniqueVals = in.get();
+  //cerr << uniqueVals << "\n\n\n";
 	char testChar;
-	while (!in.eof()) {
+	for (int i = 0; i < uniqueVals; i++) {
 		testChar = (char)huffTree.decode(bitIn);
 		if (in.eof()) {
+      cerr << "Broke cause EOF";
 			break;
 		}
-	out << testChar;
+	  out << testChar;
 	}
 
 	in.close();
