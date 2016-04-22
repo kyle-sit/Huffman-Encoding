@@ -15,7 +15,7 @@ class BitInputStream {
   public:
     BitInputStream(std::istream & is) : in(is) {
       buf = 0; //clear buffer
-      nbits = 8; //initialize bit index
+      nbits = 9; //initialize bit index
     }
 
     /* Fill buffer from input */

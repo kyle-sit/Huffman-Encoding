@@ -3,8 +3,9 @@
 
 /* Fill buffer from input */
 void BitInputStream::fill() {
+  buf = 0;
   buf = in.get();
-  nbits = 0;
+  nbits = 1;
 }
 
 /** Read the next bit from the bit buffer.
@@ -14,19 +15,21 @@ void BitInputStream::fill() {
  *
  */
 int BitInputStream::readBit() {
+  int charSize = 8;
   //If all bits in the buffer are read, fill the buffer first.
-  if (nbits == 8) {
+  if (nbits == charSize + 1) {
     this->fill();
   }
-  return 0;
 
   //Get the bit at the appropriate location in the bit
   //buffer, and return the appropriate int.
-
-
-
-
-  
+  char temp = buf;
+  temp = temp << (nbits - 1);
+  temp = temp >> (charSize - 1);
 
   //Increment the index
+  nbits++;
+  
+  cerr << (int)temp;
+  return (int)temp;
 }

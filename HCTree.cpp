@@ -87,24 +87,25 @@ void HCTree::build(const vector<int>& freqs) {
 void HCTree::encode(byte symbol, BitOutputStream& out) const {
 
   HCNode* temp = leaves[ (int)symbol ];
-  //std::string backward;
+  std::string backward;
   HCNode* temp2 = temp->p;
   while( temp2 != NULL ) {
     if( temp == temp2->c0 ) {
-      //backward += '0';
-      cerr << "Writing 0" << "\n";
-      out.writeBit( 0 );
+      backward += '0';
+      //cerr << "Writing 0" << "\n";
+      //out.writeBit( 0 );
     }
     else {
-      //backward += '1';
-      cerr << "Writing 1" << "\n";
-      out.writeBit( 1 );
+      backward += '1';
+      //cerr << "Writing 1" << "\n";
+      //out.writeBit( 1 );
     }
     temp = temp2;
     temp2 = temp2->p;
   }
 
-  /*std::string::iterator it = backward.end();
+  std::string::iterator it = backward.end();
+  it--;
   while( it != backward.begin()) {
     if( *it == '0' ) {
       out.writeBit( 0 ); 
@@ -113,11 +114,48 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
     	out.writeBit( 1 );
     }
     it--;
-  }*/
+  }
+
+  //Get the last bit
+  if( *it == '0' ) {
+    out.writeBit( 0 );
+  }
+  else {
+    out.writeBit( 1 );
+  }
 }
 
 
-//int HCTree::decode(BitInputStream& in) const;
+int HCTree::decode(BitInputStream& in) const {
+  HCNode* tempNode = root;
+
+  // While loop traversing the tree in huffman code path
+  while( tempNode != NULL ) {
+    int bit = in.readBit();
+    if( tempNode->c0 == NULL && tempNode->c1 == NULL ) {
+      return tempNode->symbol;
+    }
+    else if( bit == 0 ) {
+      tempNode = tempNode->c0;
+      //if we have found the code, RETURN, and do not get another int because
+      //another call to decode will handle that for us. Otherwise, we need to
+      //get another int because we'll still be in this while loop
+      if (tempNode -> c0 == NULL && tempNode ->c1 == NULL) {
+      	return tempNode->symbol;
+      }
+    }
+    else {
+      tempNode = tempNode->c1;
+      //if we have found the code, RETURN, and do not get another int because
+      //another call to decode will handle that for us. Otherwise, we need to
+      //get another int because we'll still be in this while loop
+      if (tempNode -> c0 == NULL && tempNode ->c1 == NULL) {
+      	return tempNode->symbol;
+      }
+    }
+  }
+  return 1;  
+}
 
 void HCTree::encode(byte symbol, ofstream& out) const {
   // Create a temp node pointer for use

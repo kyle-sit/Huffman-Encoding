@@ -77,7 +77,8 @@ int compress(int argc, char* argv[])
 
 	//Resets the stream to beginning of file
 	in.seekg(0, ios_base::beg); 
-	
+
+  //create output stream
 	BitOutputStream bitOut = BitOutputStream(out);
 
 	int nextChar;

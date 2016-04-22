@@ -15,9 +15,9 @@ void BitOutputStream::flush() {
  */
 
 void BitOutputStream::writeBit(int i) {
-  charSize = 8;
+  int charSize = 8;
   // Is bit buffer full? Then flush it.
-  if (nbits == charSize) {
+  if (nbits == charSize + 1) {
     this->flush();
   }
 

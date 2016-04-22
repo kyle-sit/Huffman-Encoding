@@ -74,7 +74,9 @@ int uncompress(int argc, char* argv[])
 
 	//Resets the stream to beginning of file
 	in.seekg(0, ios_base::beg);
-	
+
+  // Create inputstream
+  BitInputStream bitIn = BitInputStream(in);
 	
 	int nextChar;
 	vector<int> freqs(vectorSize,0);
@@ -107,25 +109,12 @@ int uncompress(int argc, char* argv[])
 
 	char testChar;
 	while (!in.eof()) {
-		testChar = (char)huffTree.decode(in);
+		testChar = (char)huffTree.decode(bitIn);
 		if (in.eof()) {
 			break;
 		}
 	out << testChar;
 	}
-
-/*
-=======
-  char testChar;
-	while (!in.eof()) {
-		testChar = (char)huffTree.decode(in);
-    if( in.eof() ) {
-      break;
-    }
-    out << testChar;
->>>>>>> 9fe43e3f0fe4a203ad15f2a6763e4479b9eea59a
-	}
-*/
 
 	in.close();
 	out.close();
