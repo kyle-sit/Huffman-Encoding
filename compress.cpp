@@ -86,9 +86,9 @@ int compress(int argc, char* argv[])
 	//appropriate slots according to ASCII value of whatever chars you read
 	//from infile 
 	vector<int> freqs(256,0);
-	char nextChar;
+	unsigned int nextChar;
   while ((nextChar = in.get()) != EOF) {
-		freqs[(char)nextChar] = freqs[(char)nextChar] + 1;
+		freqs[nextChar] = freqs[nextChar] + 1;
 	}
 	
 	for (vector<int>::iterator i = freqs.begin(); i != freqs.end(); i++) {
