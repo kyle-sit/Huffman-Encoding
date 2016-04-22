@@ -1,3 +1,10 @@
+/*
+ * Filename: HCNode.hpp
+ * Name: Kyle Sit
+ * Date: 4/21/16
+ * Description: Contains class definiton for our HCNode 
+ */
+
 #ifndef HCNODE_HPP
 #define HCNODE_HPP
 
@@ -36,7 +43,7 @@ public:
 /** For printing an HCNode to an ostream
  *  Possibly useful for debugging.
  */
-ostream& operator<<(ostream&, const HCNode&) __attribute__((weak)); // shut the linker up
+ostream& operator<<(ostream&, const HCNode&) __attribute__((weak));
 ostream& operator<<(ostream& stm, const HCNode& n) {
     stm << "[" << n.count << "," << (int) (n.symbol) << "]";
     return stm;

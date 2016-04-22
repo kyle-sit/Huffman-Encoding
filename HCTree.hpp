@@ -1,3 +1,10 @@
+/*
+ * Filename: HCTree.hpp
+ * Name: Kyle Sit
+ * Date: 4/21/16
+ * Description: Contains class definiton for our Huffman coding tree 
+ */
+
 #ifndef HCTREE_HPP
 #define HCTREE_HPP
 

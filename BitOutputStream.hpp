@@ -1,3 +1,10 @@
+/*
+ * Filename: BitOutputStream.hpp
+ * Name: Kyle Sit
+ * Date: 4/21/16
+ * Description: Contains class definiton for our BitOutputStream buffer 
+ */
+
 #ifndef BITOUTPUTSTREAM_HPP
 #define BITOUTPUTSTREAM_HPP
 

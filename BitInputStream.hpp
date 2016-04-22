@@ -1,3 +1,11 @@
+
+/*
+ * Filename: BSTNode.hpp
+ * Name: Kyle Sit
+ * Date: 4/4/16
+ * Description: Contains class definiton for our Binary Search Tree 
+ * Node class and contains member methods and variables.
+ */
 #ifndef BITINPUTSTREAM_HPP
 #define BITINPUTSTREAM_HPP
 

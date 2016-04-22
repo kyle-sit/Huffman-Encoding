@@ -1,3 +1,10 @@
+/*
+ * Filename: HCTree.cpp
+ * Name: Kyle Sit
+ * Date: 4/21/16
+ * Description: Contains implementation of our HCTree methods 
+ */
+
 #include "HCTree.hpp"
 #include <queue>
 #include <vector>
@@ -8,10 +15,21 @@
 
 using namespace std;
 
+/* 
+ * Function name: destructor
+ * Purpose: frees all our allocated memory
+ * Parameters: none
+ */
 HCTree::~HCTree() {
   deleteAll( root );
 }
 
+/* 
+ * Function name: deleteAll
+ * Purpose: Implemented in our destructor
+ * Parameters: n - pointer to node to start on
+ * Return: none
+ */
 void HCTree::deleteAll(HCNode* n) {
   /** If current node is null: return */
   if( n == nullptr ) {
@@ -30,6 +48,12 @@ void HCTree::deleteAll(HCNode* n) {
   return;
 }
 
+/* 
+ * Function name: build
+ * Purpose: Builds our huffman coding tree
+ * Parameters: freqs - vector of frequencies for each char
+ * Return: none
+ */
 void HCTree::build(const vector<int>& freqs) {
   // Build our leaves vector from the vector of int frequencies
   int i = 0;
@@ -84,6 +108,13 @@ void HCTree::build(const vector<int>& freqs) {
   }
 }
 
+/* 
+ * Function name: encode
+ * Purpose: encode our message using the huffman tree
+ * Parameters: symbol - the char to encode
+ *             out - the stream we are using as a buffer
+ * Return: none
+ */
 void HCTree::encode(byte symbol, BitOutputStream& out) const {
 
   HCNode* temp = leaves[ (int)symbol ];
@@ -105,6 +136,8 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
     temp2 = temp2->p;
   }
 
+  //go backwards through our sting because path is backwards
+  //and make calls to writeBit to use buffer
   std::string::iterator it = backward.end();
   it--;
   while( it != backward.begin()) {
@@ -127,6 +160,12 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
 }
 
 
+/* 
+ * Function name: decode
+ * Purpose: decode an encoded message using the huffman tree
+ * Parameters: in - the stream we are retrieving the message from
+ * Return: none
+ */
 int HCTree::decode(BitInputStream& in) const {
   HCNode* tempNode = root;
 
@@ -158,6 +197,13 @@ int HCTree::decode(BitInputStream& in) const {
   return 1;  
 }
 
+/* 
+ * Function name: encode
+ * Purpose: encode our message using the huffman tree
+ * Parameters: symbol - the char to encode
+ *             out - the stream we are printing to
+ * Return: none
+ */
 void HCTree::encode(byte symbol, ofstream& out) const {
   // Create a temp node pointer for use
   HCNode* temp = leaves[ (int)symbol ];
@@ -196,6 +242,12 @@ void HCTree::encode(byte symbol, ofstream& out) const {
 }
 
 
+/* 
+ * Function name: decode
+ * Purpose: decode an encoded message using the huffman tree
+ * Parameters: in - the stream we are retrieving the message from
+ * Return: none
+ */
 int HCTree::decode(ifstream& in) const{
 //why does this return an int
 //print out everything, return presumably true or false

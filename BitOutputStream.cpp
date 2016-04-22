@@ -1,7 +1,19 @@
+/*
+ * Filename: BitOutputStream.cpp
+ * Name: Kyle Sit
+ * Date: 4/21/16
+ * Description: Implementation of Outputstream methods
+ */
+
 #include "BitOutputStream.hpp"
 #include <iostream>
 
-/* Send buffer to the output, and clear it */
+/* 
+ * Function name: flush
+ * Purpose: Send buffer to the output and clear it
+ * Parameters: none
+ * Return: none
+ */
 void BitOutputStream::flush() {
   out.put(buf);
   out.flush();
@@ -14,6 +26,14 @@ void BitOutputStream::flush() {
  * But flush the buffer first, if it is full.
  */
 
+/* 
+ * Function name: writeBit
+ * Purpose: Write the least significant bit of the argument to
+ * the bit buffer, and increment the bit buffer index.
+ * But flush the buffer first, if it is full.
+ * Parameters: i - the bit to be shifted and set
+ * Return: none
+ */
 void BitOutputStream::writeBit(int i) {
   int charSize = 8;
   // Is bit buffer full? Then flush it.
