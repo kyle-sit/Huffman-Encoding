@@ -30,6 +30,5 @@ int BitInputStream::readBit() {
   //Increment the index
   nbits++;
   
-  cerr << (int)temp;
   return (int)temp;
 }

@@ -88,7 +88,14 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
 
   HCNode* temp = leaves[ (int)symbol ];
   std::string backward;
+  cerr << "\n" << temp;
+  cerr << "About to segfault with" << (char)(symbol);
   HCNode* temp2 = temp->p;
+  // Only root case
+  if( temp2 == NULL ) {
+    backward += '0';
+  }
+  // Multiple nodes
   while( temp2 != NULL ) {
     if( temp == temp2->c0 ) {
       backward += '0';

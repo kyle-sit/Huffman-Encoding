@@ -81,28 +81,33 @@ int compress(int argc, char* argv[])
   //create output stream
 	BitOutputStream bitOut = BitOutputStream(out);
 
-	int nextChar;
 
 	//create vector of size 256 zero initialized, then fill in the
 	//appropriate slots according to ASCII value of whatever chars you read
 	//from infile 
 	vector<int> freqs(256,0);
-  char charToStore;
-  int tempInt;
-  int uniqueValCount = 0;
-	while ((nextChar = in.get()) != EOF) {
+	char nextChar;
+  while ((nextChar = in.get()) != EOF) {
 		freqs[(char)nextChar] = freqs[(char)nextChar] + 1;
 	}
 	
 	for (vector<int>::iterator i = freqs.begin(); i != freqs.end(); i++) {
-    /* if the frequency was 0, put in a null char */
+    if( *i != 0 ) {
+      out.write((char*)(&(*i)), 3);
+    }
+    else {
+      out.write((char*)(&(*i)), 3);
+    }
+  }
+    
+    /* if the frequency was 0, put in a null char 
     if (*i == 0) {
       out << "000";
       //cerr << "no frequency here, Stored a 420\n";
     }
-    /* frequency wasn't 0, put in 3 chars representing that frequency, instead
+     frequency wasn't 0, put in 3 chars representing that frequency, instead
      * so it's 3 bytes not 4, since max freq is around ~10 mil, able to be
-     * stored in 3 bytes */
+     * stored in 3 bytes 
     else {
       tempInt = *i;
       for (int j = 0; j < 3; j++) {
@@ -126,9 +131,10 @@ int compress(int argc, char* argv[])
 		//out << "\n";
     }
   }
-  //out << uniqueValCount;
+  //out << uniqueValCount; */
 	
-	//create a tree, built based on 
+  
+  //create a tree, built based on 
 	HCTree huffTree;
 	huffTree.build(freqs);
 

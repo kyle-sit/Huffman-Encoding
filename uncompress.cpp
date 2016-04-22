@@ -77,19 +77,27 @@ int uncompress(int argc, char* argv[])
 
 
 	
-	char nextChar1, nextChar2, nextChar3;;
-  int finalInt;
+	//char nextChar1, nextChar2, nextChar3;;
+  //int finalInt;
   int uniqueVals;
 	vector<int> freqs(vectorSize,0);
+  char charArray[BUFSIZ];
 	//loop through header, if a frequency is greater than 0, populate a
 	//frequency vector spot with the appropriate frequency, which is the
 	//char we just processed 
 
-	for (int i = 0; i < vectorSize; i++) {
+	for (int i = 0; i < (int)freqs.size(); i++) {
+    in.read(charArray, 3);
+    int* loc = (int*)charArray;
+    int temp = *loc;
+    uniqueVals = uniqueVals + temp;
+    
+    freqs[i] = temp;
+
 		//this >> knows to get one int, stop at the newline
 		//the next time it grabs, it'll be pointing at the newline but
 		//knows to skip it
-		in >> nextChar1;
+		/*in >> nextChar1;
     in >> nextChar2;
     in >> nextChar3;
 		if ((nextChar1 != '0') && (nextChar2 != '0') && (nextChar3 != '0')) {
@@ -100,8 +108,9 @@ int uncompress(int argc, char* argv[])
       freqs[i] = finalInt;
       uniqueVals = uniqueVals + finalInt;
       cerr << "Processed a significant 3 bytes from header \n";
-      /*
-      finalInt = finalInt | nextChar;
+      */
+    /*
+   finalInt = finalInt | nextChar;
       nextChar = 0;
       in >> nextChar;
       nextChar = nextChar << 8;
@@ -111,7 +120,8 @@ int uncompress(int argc, char* argv[])
       finalInt = finalInt | nextChar;
 			freqs[i] = finalInt;
       */
-		}
+		//}
+  
     /*
     else {
     }
