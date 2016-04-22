@@ -92,13 +92,9 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
   while( temp2 != NULL ) {
     if( temp == temp2->c0 ) {
       backward += '0';
-      //cerr << "Writing 0" << "\n";
-      //out.writeBit( 0 );
     }
     else {
       backward += '1';
-      //cerr << "Writing 1" << "\n";
-      //out.writeBit( 1 );
     }
     temp = temp2;
     temp2 = temp2->p;
