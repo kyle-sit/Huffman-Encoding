@@ -1,6 +1,6 @@
 /*
  * Filename: compress.cpp
- * Name: Kyle Sit, Louis Leung
+ * Name: Kyle Sit
  * Date: 4/12/16
  * Description: Implements the compression of a code using huffman tree.
  */
